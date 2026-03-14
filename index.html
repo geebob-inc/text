@@ -2,54 +2,92 @@
 <html>
 <head>
 <title>Draw Greeting</title>
-<style>
-  body {
-    text-align: center;
-    font-family: "Courier New", Courier, monospace;
-  }
-  canvas {
-    border: 1px solid gold;
-  }
-</style>
-</head>
 
+<style>
+
+body{
+    font-family: Arial, sans-serif;
+    text-align:center;
+}
+
+canvas{
+    border:1px solid black;
+}
+
+</style>
+
+</head>
 <body>
 
 <h2>Draw Greeting</h2>
 
-<input type="text" id="nameInput" placeholder="Enter your name">
-<button onclick="startDrawing()">Start</button>
+<input id="name" placeholder="Enter your name">
+<input id="note" placeholder="Enter your note">
+<button onclick="start()">Start</button>
 
 <br><br>
 
 <canvas id="canvas" width="300" height="300"></canvas>
 
 <script>
-let canvas = document.getElementById("canvas");
-let ctx = canvas.getContext("2d");
-let name = "";
-let interval;
 
-function startDrawing() {
-  name = document.getElementById("nameInput").value;
-  
-  if(interval) clearInterval(interval);
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
 
-  interval = setInterval(draw, 500);
+let text = "";
+let x = 100;
+let y = 100;
+
+let dx = 2;
+let dy = 2;
+
+let running = false;
+
+function randomColor(){
+    const r = Math.floor(Math.random()*255);
+    const g = Math.floor(Math.random()*255);
+    const b = Math.floor(Math.random()*255);
+    return `rgb(${r},${g},${b})`;
 }
 
-function draw() {
+function start(){
 
-  let x = Math.random() * 300;
-  let y = Math.random() * 300;
+    const name = document.getElementById("name").value;
+    const note = document.getElementById("note").value;
 
-  ctx.fillStyle = "white";
-  ctx.fillRect(0,0,300,300);
+    text = name + note;
 
-  ctx.fillStyle = "red";
-  ctx.font = "20px Arial";
-  ctx.fillText("Hiiii, " + name, x, y);
+    running = true;
 }
+
+function draw(){
+
+    if(!running) return;
+
+    ctx.fillStyle = "white";
+    ctx.fillRect(0,0,300,300);
+
+    ctx.fillStyle = randomColor();
+    ctx.font = "20px Arial";
+
+    ctx.fillText(text,x,y);
+
+    x += dx;
+    y += dy;
+
+    if(x < 0 || x > 200){
+        dx *= -1;
+    }
+
+    if(y < 20 || y > 280){
+        dy *= -1;
+    }
+
+    requestAnimationFrame(draw);
+}
+
+draw();
+
 </script>
 
 </body>
