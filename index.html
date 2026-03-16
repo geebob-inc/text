@@ -3,21 +3,17 @@
 <head>
 <title>Draw Greeting</title>
 
-
-   
 <style>
 body{
     font-family: "Comic Sans MS", Comic Sans, cursive;
     text-align: center;
     color: black;
-    background-color: white;
 }
 
 input, select{
     padding: 8px;
     margin: 5px;
-    border: 4px solid dark green;
-    background-color: white;
+    border: 4px solid darkgreen;
 }
 
 button{
@@ -28,7 +24,7 @@ button{
 
 canvas{
     border: 1px solid green;
-    
+    background: transparent;
 }
 </style>
 </head>
@@ -40,30 +36,22 @@ canvas{
 <input id="note" placeholder="Enter your note">
 <input id="name" placeholder="Enter your name">
 
-<!-- Font selection dropdown -->
 <select id="fontSelect">
-    <option value="Georgia">Georgia</option>
-    <option value="Arial">Arial</option>
-    <option value="Verdana">Verdana</option>
-    <option value="'Comic Sans MS', cursive">Comic Sans MS</option>
-    <option value="Tahoma">Tahoma</option>
-    <option value="'Courier New', monospace">Courier New</option>
-    <option value="'Times New Roman', serif">Times New Roman</option>
-    <option value="Impact, sans-serif">Impact</option>
-    <option value="'Lucida Console', monospace">Lucida Console</option>
-    <option value="'Palatino Linotype', serif">Palatino Linotype</option>
-    <option value="'Trebuchet MS', sans-serif">Trebuchet MS</option>
-    <option value="'Brush Script MT', cursive">Brush Script MT</option>
+<option value="Georgia">Georgia</option>
+<option value="Arial">Arial</option>
+<option value="Verdana">Verdana</option>
+<option value="'Comic Sans MS', cursive">Comic Sans MS</option>
+<option value="Tahoma">Tahoma</option>
+<option value="'Courier New', monospace">Courier New</option>
+<option value="'Times New Roman', serif">Times New Roman</option>
+<option value="Impact, sans-serif">Impact</option>
+<option value="'Lucida Console', monospace">Lucida Console</option>
+<option value="'Palatino Linotype', serif">Palatino Linotype</option>
+<option value="'Trebuchet MS', sans-serif">Trebuchet MS</option>
+<option value="'Brush Script MT', cursive">Brush Script MT</option>
 </select>
 
-<!-- Font color picker -->
 <input type="color" id="colorPicker" value="#ff0000">
-
-<!-- Light/Dark mode toggle -->
-<select id="modeSelect">
-    <option value="light">Light Mode</option>
-    <option value="dark">Dark Mode</option>
-</select>
 
 <button onclick="start()">Start</button>
 
@@ -82,7 +70,6 @@ let dx = 2;
 let dy = 2;
 let running = false;
 
-// Fixed font size
 const fontSize = 30;
 let fontFamily = "Georgia";
 let fontColor = "#ff0000";
@@ -92,7 +79,6 @@ function start(){
     const note = document.getElementById("note").value;
     text = note + " " + name;
 
-    // Center text
     ctx.font = `${fontSize}px ${fontFamily}`;
     x = (canvas.width - ctx.measureText(text).width) / 2;
     y = canvas.height / 2;
@@ -100,28 +86,16 @@ function start(){
     running = true;
 }
 
-// Update live styles
 function updateStyles(){
     fontFamily = document.getElementById("fontSelect").value;
     fontColor = document.getElementById("colorPicker").value;
-
-    // Live dark/light mode for page only
-    const mode = document.getElementById("modeSelect").value;
-    if(mode === "dark"){
-        document.body.style.backgroundColor = "black";
-        document.body.style.color = "white";
-    } else {
-        document.body.style.backgroundColor = "white";
-        document.body.style.color = "black";
-    }
 }
 
 function draw(){
-    updateStyles(); // Apply live updates
+    updateStyles();
 
-    // Keep canvas background always white
-    ctx.fillStyle = "white";
-    ctx.fillRect(0,0,canvas.width,canvas.height);
+    // Clear canvas (transparent)
+    ctx.clearRect(0,0,canvas.width,canvas.height);
 
     if(running){
         ctx.font = `${fontSize}px ${fontFamily}`;
@@ -131,12 +105,10 @@ function draw(){
         x += dx;
         y += dy;
 
-        // Bounce horizontally
         if(x < 0 || x > canvas.width - ctx.measureText(text).width){
             dx *= -1;
         }
 
-        // Bounce vertically
         if(y < fontSize || y > canvas.height){
             dy *= -1;
         }
@@ -147,11 +119,13 @@ function draw(){
 
 draw();
 </script>
+
 <p>
 Check out my game:
 <a href="https://geebob-glitch.github.io/fighting_game/" target="_blank">
 https://geebob-glitch.github.io/fighting_game/
 </a>
 </p>
+
 </body>
 </html>
